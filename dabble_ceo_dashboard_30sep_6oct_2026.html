@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dabble PlayArt - CEO Weekly Dashboard | 30 Sep - 6 Oct 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+:root {
+  --purple:#6B21A8;--purple-lt:#F3E8FF;--purple-md:#A855F7;
+  --teal:#0D9488;--teal-lt:#CCFBF1;
+  --amber:#D97706;--amber-lt:#FEF3C7;
+  --rose:#E11D48;--rose-lt:#FFE4E6;
+  --green:#16A34A;--green-lt:#DCFCE7;
+  --blue:#1D4ED8;--blue-lt:#DBEAFE;
+  --orange:#EA580C;--orange-lt:#FFEDD5;
+  --indigo:#4338CA;--indigo-lt:#EEF2FF;
+  --slate:#0F172A;--slate2:#1E293B;
+  --muted:#64748B;--border:#E2E8F0;--bg:#F8FAFC;--white:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--slate2);font-size:14px;line-height:1.6;}
+@media print{body{background:white;font-size:11px;}.no-print{display:none!important;}.page-break{page-break-before:always;}}
+.wrapper{max-width:1200px;margin:0 auto;padding:32px 24px;}
+.dash-header{background:linear-gradient(135deg,#064E3B 0%,#065F46 40%,#047857 70%,#059669 100%);color:white;border-radius:20px;padding:36px 44px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
+.hdr-left .brand{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px;}
+.hdr-left h1{font-size:26px;font-weight:800;line-height:1.2;letter-spacing:-0.5px;}
+.hdr-left .period{font-size:13px;color:rgba(255,255,255,0.7);margin-top:8px;}
+.hdr-right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.hdr-badge{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 14px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:500;}
+.hdr-sale-badge{background:rgba(255,200,0,0.2);border:1px solid rgba(255,200,0,0.5);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;color:#FDE68A;}
+.print-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:white;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;}
+.print-btn:hover{background:rgba(255,255,255,0.25);}
+.sec-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);margin-bottom:14px;margin-top:36px;display:flex;align-items:center;gap:10px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.sec-label span{white-space:nowrap;}
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:4px;}
+@media(max-width:1000px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:white;border-radius:14px;padding:18px 16px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;overflow:hidden;transition:box-shadow .15s;}
+.kpi:hover{box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi.c-green::before{background:var(--green);}
+.kpi.c-purple::before{background:var(--purple);}
+.kpi.c-teal::before{background:var(--teal);}
+.kpi.c-amber::before{background:var(--amber);}
+.kpi.c-rose::before{background:var(--rose);}
+.kpi.c-blue::before{background:var(--blue);}
+.kpi.c-orange::before{background:var(--orange);}
+.kpi.c-indigo::before{background:var(--indigo);}
+.kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);margin-bottom:8px;}
+.kpi-value{font-size:24px;font-weight:800;color:var(--slate2);line-height:1.1;margin-bottom:6px;}
+.kpi-prev{font-size:11px;color:var(--muted);}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:4px;}
+.kpi-change.up{background:var(--green-lt);color:var(--green);}
+.kpi-change.down{background:var(--rose-lt);color:var(--rose);}
+.kpi-change.flat{background:#F1F5F9;color:var(--muted);}
+.kpi-note{font-size:10px;color:var(--amber);font-weight:600;margin-top:3px;}
+.kpi-note.good{color:var(--green);}
+
+/* SALE ALERT BANNER */
+.sale-banner{background:linear-gradient(135deg,#064E3B,#065F46 60%,#0D9488);color:white;border-radius:14px;padding:18px 24px;margin-bottom:16px;display:flex;align-items:flex-start;gap:16px;}
+.sb-icon{font-size:28px;flex-shrink:0;margin-top:2px;}
+.sb-title{font-size:15px;font-weight:800;margin-bottom:5px;}
+.sb-body{font-size:13px;color:rgba(255,255,255,0.88);line-height:1.6;}
+.sb-body strong{color:#FDE68A;}
+
+/* EXEC BANNER */
+.exec-banner{background:linear-gradient(135deg,#0F172A 0%,#1E293B 100%);color:white;border-radius:16px;padding:28px 32px;margin-bottom:8px;border:1px solid #334155;}
+.exec-banner .eb-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#94A3B8;margin-bottom:4px;}
+.exec-banner .eb-headline{font-size:20px;font-weight:800;color:white;margin-bottom:16px;line-height:1.3;}
+.exec-points{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
+.exec-point{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;}
+.exec-point .ep-icon{font-size:16px;margin-bottom:6px;}
+.exec-point .ep-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#94A3B8;margin-bottom:4px;}
+.exec-point .ep-body{font-size:13px;color:#CBD5E1;line-height:1.5;}
+.exec-point .ep-body strong{color:white;}
+.exec-point.good{border-color:rgba(22,163,74,0.3);background:rgba(22,163,74,0.06);}
+.exec-point.warn{border-color:rgba(217,119,6,0.3);background:rgba(217,119,6,0.06);}
+.exec-point.alert{border-color:rgba(225,29,72,0.3);background:rgba(225,29,72,0.06);}
+.exec-point.info{border-color:rgba(107,33,168,0.4);background:rgba(107,33,168,0.08);}
+.exec-point.teal{border-color:rgba(13,148,136,0.4);background:rgba(13,148,136,0.08);}
+
+/* MTD TARGET SECTION */
+.tgt-section{background:white;border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.tgt-header{background:linear-gradient(135deg,#064E3B,#065F46);padding:20px 26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.tgt-header .th-left .th-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:rgba(255,255,255,0.55);margin-bottom:3px;}
+.tgt-header .th-left .th-title{font-size:18px;font-weight:800;color:white;}
+.tgt-header .th-right{display:flex;gap:12px;flex-wrap:wrap;}
+.tgt-stat{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:12px 18px;text-align:center;}
+.tgt-stat .ts-val{font-size:20px;font-weight:800;line-height:1;}
+.tgt-stat .ts-lbl{font-size:10px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.4px;margin-top:3px;}
+.tgt-stat.ts-good .ts-val{color:#6EE7B7;}
+.tgt-stat.ts-warn .ts-val{color:#FCA5A5;}
+.tgt-stat.ts-ok .ts-val{color:#FDE68A;}
+.tgt-body{padding:22px 26px;}
+.tgt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
+@media(max-width:700px){.tgt-grid{grid-template-columns:1fr;}}
+.tgt-kpi{background:#F8FAFC;border-radius:12px;padding:16px 18px;border:1px solid var(--border);}
+.tgt-kpi .tk-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px;}
+.tgt-kpi .tk-val{font-size:22px;font-weight:800;color:var(--slate2);}
+.tgt-kpi .tk-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.tgt-kpi .tk-badge{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px;}
+.tk-badge.on-track{background:var(--green-lt);color:var(--green);}
+.tk-badge.behind{background:var(--rose-lt);color:var(--rose);}
+.tk-badge.watch{background:var(--amber-lt);color:var(--amber);}
+
+/* MTD daily chart and bars */
+.mtd-progress{margin-top:16px;background:#F1F5F9;border-radius:10px;overflow:hidden;height:28px;position:relative;}
+.mtd-progress-fill{height:100%;display:flex;align-items:center;padding-left:12px;font-size:11px;font-weight:700;color:white;}
+.mtd-progress-fill.mtd-ok{background:linear-gradient(90deg,#D97706,#F59E0B);}
+.mtd-progress-fill.mtd-good{background:linear-gradient(90deg,#16A34A,#22C55E);}
+.mtd-progress-fill.mtd-bad{background:linear-gradient(90deg,#E11D48,#F87171);}
+.mtd-progress-label{margin-top:6px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted);}
+.tdb-row{display:grid;grid-template-columns:110px 140px 1fr 130px 80px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);}
+.tdb-row:last-child{border-bottom:none;}
+.tdb-row.tdb-head{padding-bottom:6px;}
+.tdb-head-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--muted);}
+.tdb-date{font-size:12px;font-weight:600;color:var(--slate2);}
+.tdb-event{font-size:11px;color:var(--muted);font-style:italic;}
+.tdb-bar-wrap{position:relative;background:#F1F5F9;border-radius:4px;height:20px;overflow:hidden;}
+.tdb-bar-target{position:absolute;top:0;left:0;height:100%;background:#E2E8F0;border-radius:4px;width:100%;}
+.tdb-bar-actual{position:absolute;top:0;left:0;height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:9px;font-weight:700;color:white;white-space:nowrap;}
+.tdb-bar-actual.good{background:var(--green);}
+.tdb-bar-actual.ok{background:var(--amber);}
+.tdb-bar-actual.bad{background:var(--rose);}
+.tdb-pct{font-size:12px;font-weight:700;text-align:right;}
+.tdb-pct.good{color:var(--green);}
+.tdb-pct.ok{color:var(--amber);}
+.tdb-pct.bad{color:var(--rose);}
+.tdb-amt{font-size:11px;color:var(--slate2);text-align:right;}
+
+/* DAILY CHART */
+.daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:700px){.daily-grid{grid-template-columns:1fr;}}
+.chart-card{background:white;border-radius:14px;padding:22px 24px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.chart-card .cc-title{font-size:13px;font-weight:700;color:var(--slate2);margin-bottom:4px;}
+.chart-card .cc-sub{font-size:11px;color:var(--muted);margin-bottom:18px;}
+.bar-day-chart{display:flex;align-items:flex-end;gap:6px;height:120px;}
+.bdc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bdc-bars{display:flex;gap:2px;align-items:flex-end;height:100px;width:100%;}
+.bdc-bar{flex:1;border-radius:3px 3px 0 0;min-height:3px;transition:opacity .2s;cursor:pointer;}
+.bdc-bar.curr{background:var(--teal);}
+.bdc-bar.prev{background:#E2E8F0;}
+.bdc-bar.low{background:var(--amber);}
+.bdc-bar:hover{opacity:0.75;}
+.bdc-label{font-size:9px;color:var(--muted);font-weight:600;text-align:center;}
+.chart-legend{display:flex;gap:16px;margin-top:12px;font-size:11px;flex-wrap:wrap;}
+.cl-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.cl-item{display:flex;align-items:center;gap:5px;color:var(--muted);}
+
+/* META */
+.meta-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+@media(max-width:800px){.meta-summary{grid-template-columns:repeat(2,1fr);}}
+.ms-card{background:white;border-radius:12px;padding:16px;border:1px solid var(--border);}
+.ms-card.hero{background:linear-gradient(135deg,#064E3B,#065F46);color:white;border-color:transparent;}
+.ms-card .ms-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:5px;}
+.ms-card.hero .ms-label{color:rgba(255,255,255,0.65);}
+.ms-card .ms-val{font-size:22px;font-weight:800;color:var(--slate2);line-height:1.1;}
+.ms-card.hero .ms-val{color:white;}
+.ms-card .ms-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.ms-card.hero .ms-sub{color:rgba(255,255,255,0.65);}
+.ms-card .ms-wow{font-size:11px;font-weight:700;margin-top:5px;}
+.ms-wow.up{color:var(--green);}
+.ms-wow.down{color:var(--rose);}
+
+/* CAMP TABLE */
+.camp-table{background:white;border-radius:14px;padding:20px 22px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.ct-row{display:grid;grid-template-columns:1.2fr 1.8fr 90px 100px 75px;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);}
+.ct-row:last-child{border-bottom:none;}
+.ct-row.ct-head{padding-bottom:8px;}
+.ct-head-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);}
+.ct-name{font-size:12px;font-weight:500;color:var(--slate2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ct-bar-wrap{display:flex;align-items:center;gap:8px;}
+.ct-bar-track{flex:1;background:#F1F5F9;border-radius:3px;height:18px;overflow:hidden;}
+.ct-bar-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:white;white-space:nowrap;}
+.roas-badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;text-align:center;}
+.rb-green{background:var(--green-lt);color:var(--green);}
+.rb-teal{background:var(--teal-lt);color:var(--teal);}
+.rb-amber{background:var(--amber-lt);color:var(--amber);}
+.rb-rose{background:var(--rose-lt);color:var(--rose);}
+.rb-red{background:#FEE2E2;color:#991B1B;}
+
+/* DATA TABLE */
+.dtable{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05);border:1px solid var(--border);}
+.dtable thead tr{background:var(--slate2);color:white;}
+.dtable thead th{padding:10px 14px;text-align:right;font-size:10px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;white-space:nowrap;}
+.dtable thead th:first-child{text-align:left;}
+.dtable tbody td{padding:9px 14px;text-align:right;border-bottom:1px solid var(--border);font-size:13px;white-space:nowrap;}
+.dtable tbody td:first-child{text-align:left;font-weight:500;}
+.dtable tbody tr:hover td{background:#F8FAFC;}
+.dtable tbody tr:last-child td{border-bottom:none;}
+.dtable tfoot td{background:#F8FAFC;font-weight:700;font-size:12px;padding:9px 14px;text-align:right;border-top:2px solid var(--border);}
+.dtable tfoot td:first-child{text-align:left;}
+
+/* FUNNEL */
+.fv-wrap{display:flex;align-items:stretch;border-radius:12px;overflow:hidden;border:1px solid var(--border);}
+.fv-step{flex:1;background:white;padding:14px 10px;text-align:center;position:relative;border-right:1px solid var(--border);}
+.fv-step:last-child{border-right:none;}
+.fv-num{font-size:20px;font-weight:800;color:var(--slate2);}
+.fv-name{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-top:3px;}
+.fv-rate{font-size:10px;font-weight:700;color:var(--green);margin-top:2px;}
+.fv-rate.warn{color:var(--amber);}
+.fv-step.fv-hl{background:var(--teal-lt);}
+.fv-step.fv-hl .fv-num{color:var(--teal);}
+
+/* CUSTOMER / DRIVERS */
+.driver-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:8px;}
+@media(max-width:800px){.driver-row{grid-template-columns:repeat(3,1fr);}}
+.driver-cell{background:white;border-radius:12px;padding:16px 14px;border:1px solid var(--border);text-align:center;}
+.driver-cell .dc-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px;}
+.driver-cell .dc-val{font-size:20px;font-weight:800;color:var(--slate2);line-height:1.1;}
+.driver-cell .dc-arrow{font-size:11px;font-weight:700;margin-top:4px;}
+.driver-cell .dc-arrow.up{color:var(--green);}
+.driver-cell .dc-arrow.down{color:var(--rose);}
+.cust-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.cust-grid{grid-template-columns:1fr;}}
+.cust-card{background:white;border-radius:14px;padding:22px;border:1px solid var(--border);}
+.cust-card .cc-t{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);margin-bottom:16px;}
+.prog-row{margin-bottom:12px;}
+.prog-labels{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;}
+.prog-labels .pn{font-weight:600;}
+.prog-track{background:#E2E8F0;border-radius:6px;height:12px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:6px;}
+.data-flag{background:#FEF3C7;border:1px solid #FCD34D;border-left:4px solid var(--amber);border-radius:8px;padding:12px 16px;font-size:12px;color:#78350F;margin-bottom:14px;line-height:1.55;}
+.data-flag.green{background:#F0FDF4;border-color:#86EFAC;border-left-color:var(--green);color:#14532D;}
+.data-flag.red{background:#FFF1F2;border-color:#FECDD3;border-left-color:var(--rose);color:#881337;}
+.data-flag.teal{background:#F0FDFA;border-color:#5EEAD4;border-left-color:var(--teal);color:#134E4A;}
+.insight-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;}
+@media(max-width:600px){.insight-row{grid-template-columns:1fr;}}
+.ins-card{background:white;border-radius:12px;padding:16px 18px;border:1px solid var(--border);border-left:4px solid var(--teal);}
+.ins-card.green{border-left-color:var(--green);}
+.ins-card.amber{border-left-color:var(--amber);}
+.ins-card.rose{border-left-color:var(--rose);}
+.ins-card.purple{border-left-color:var(--purple);}
+.ins-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--slate2);margin-bottom:6px;}
+.ins-body{font-size:13px;color:var(--slate2);line-height:1.55;}
+.new-tag{display:inline-block;background:var(--teal-lt);color:var(--teal);font-size:9px;font-weight:800;padding:1px 6px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+.best-tag{display:inline-block;background:var(--green-lt);color:var(--green);font-size:9px;font-weight:800;padding:1px 6px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+.warn-tag{display:inline-block;background:var(--amber-lt);color:var(--amber);font-size:9px;font-weight:800;padding:1px 6px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+.low-tag{display:inline-block;background:var(--rose-lt);color:var(--rose);font-size:9px;font-weight:800;padding:1px 6px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+.dash-footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--muted);}
+.dash-footer strong{color:var(--slate2);}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<!-- HEADER -->
+<header class="dash-header">
+  <div class="hdr-left">
+    <div class="brand">Dabble PlayArt &middot; CEO Weekly Dashboard</div>
+    <h1>&#127805; Navratri &amp; Price Drop Recovery Week</h1>
+    <div class="period">30 Sep 2026 &ndash; 6 Oct 2026 &nbsp;&middot;&nbsp; Compared to: 23 Sep &ndash; 29 Sep 2026 &nbsp;&middot;&nbsp; Shopify &middot; Meta &middot; Shopflo</div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-badge">Week 41 &middot; 2026</div>
+    <div class="hdr-sale-badge">&#127881; Price Drop Sale (30 Sep&ndash;4 Oct) + Navratri (1&ndash;16 Oct)</div>
+    <a class="print-btn no-print" onclick="window.print()">&#128424; Print / Save PDF</a>
+  </div>
+</header>
+
+<!-- SALE CONTEXT BANNER -->
+<div class="sale-banner">
+  <div class="sb-icon">&#127805;</div>
+  <div>
+    <div class="sb-title">Major Recovery Week &#8212; Sale Events Drive 2x Bounce-Back</div>
+    <div class="sb-body">The <strong>Price Drop Sale (30 Sep&#8211;4 Oct)</strong> and <strong>Navratri campaign (1&#8211;16 Oct)</strong> together triggered a dramatic reversal from three consecutive weak weeks. Orders surged <strong>+121.5% WoW</strong> to 330 and GMV hit <strong>&#8377;4,19,229</strong> &#8212; a <strong>+118.3% WoW</strong> jump. Meta spend doubled to <strong>&#8377;2,39,088</strong> with the new <strong>DP_PriceDrop campaign leading at 1.85x ROAS</strong> (&#8377;1,40,509 revenue from &#8377;75,855 spend). However, the first 6 days of October MTD are at only <strong>71.3%</strong> of the daily plan &#8212; week-2 of Navratri must sustain this momentum through Oct 16.</div>
+  </div>
+</div>
+
+<!-- 01 CEO OVERVIEW -->
+<div class="sec-label"><span>01 &nbsp;&#8212;&nbsp; CEO Overview &mdash; 30 Sep&#8211;6 Oct vs 23&#8211;29 Sep</span></div>
+<div class="kpi-grid">
+  <div class="kpi c-teal">
+    <div class="kpi-label">Total Sales (GMV)</div>
+    <div class="kpi-value">&#8377;4,19,229</div>
+    <div class="kpi-prev">Prev: &#8377;1,92,030</div>
+    <div class="kpi-change up">&#9650; +118.3% WoW</div>
+  </div>
+  <div class="kpi c-green">
+    <div class="kpi-label">Net Revenue</div>
+    <div class="kpi-value">&#8377;3,48,494</div>
+    <div class="kpi-prev">Prev: &#8377;1,60,405</div>
+    <div class="kpi-change up">&#9650; +117.3% WoW</div>
+  </div>
+  <div class="kpi c-purple">
+    <div class="kpi-label">Orders</div>
+    <div class="kpi-value">330</div>
+    <div class="kpi-prev">Prev: 149</div>
+    <div class="kpi-change up">&#9650; +121.5% WoW</div>
+  </div>
+  <div class="kpi c-amber">
+    <div class="kpi-label">Blended AOV</div>
+    <div class="kpi-value">&#8377;1,086</div>
+    <div class="kpi-prev">Prev: &#8377;1,161</div>
+    <div class="kpi-change down">&#9660; &#8209;6.4% WoW</div>
+    <div class="kpi-note">Sale pricing compresses AOV</div>
+  </div>
+  <div class="kpi c-blue">
+    <div class="kpi-label">Sessions</div>
+    <div class="kpi-value">9,046</div>
+    <div class="kpi-prev">Prev: 4,471</div>
+    <div class="kpi-change up">&#9650; +102.3% WoW</div>
+  </div>
+  <div class="kpi c-indigo">
+    <div class="kpi-label">Meta Blended ROAS</div>
+    <div class="kpi-value">1.75x</div>
+    <div class="kpi-prev">Prev: 1.76x</div>
+    <div class="kpi-change flat">&#8776; Stable WoW</div>
+    <div class="kpi-note good">&#9650; Volume 4x higher</div>
+  </div>
+</div>
+<div class="kpi-grid" style="margin-top:12px;">
+  <div class="kpi c-orange">
+    <div class="kpi-label">Meta Spend</div>
+    <div class="kpi-value">&#8377;2,39,088</div>
+    <div class="kpi-prev">Prev: &#8377;1,09,091</div>
+    <div class="kpi-change up">&#9650; +119.2% WoW (sale scale-up)</div>
+  </div>
+  <div class="kpi c-teal">
+    <div class="kpi-label">Meta Purchases (Attr.)</div>
+    <div class="kpi-value">283</div>
+    <div class="kpi-prev">Prev: 104</div>
+    <div class="kpi-change up">&#9650; +172.1% WoW</div>
+  </div>
+  <div class="kpi c-green">
+    <div class="kpi-label">Meta Attr. ROAS</div>
+    <div class="kpi-value">1.49x</div>
+    <div class="kpi-prev">Prev: 1.34x</div>
+    <div class="kpi-change up">&#9650; +0.15x WoW</div>
+  </div>
+  <div class="kpi c-purple">
+    <div class="kpi-label">New Customers</div>
+    <div class="kpi-value">248</div>
+    <div class="kpi-prev">Prev: 103</div>
+    <div class="kpi-change up">&#9650; +140.8% WoW</div>
+  </div>
+  <div class="kpi c-blue">
+    <div class="kpi-label">Returning Customers</div>
+    <div class="kpi-value">82</div>
+    <div class="kpi-prev">Prev: 46</div>
+    <div class="kpi-change up">&#9650; +78.3% WoW</div>
+  </div>
+  <div class="kpi c-amber">
+    <div class="kpi-label">Returning Share</div>
+    <div class="kpi-value">24.8%</div>
+    <div class="kpi-prev">Prev: 30.9%</div>
+    <div class="kpi-change down">&#9660; &#8209;6.1pp (new acquis. flood)</div>
+  </div>
+</div>
+
+<!-- 02 OCT MTD TARGET VS ACHIEVEMENT -->
+<div class="sec-label"><span>02 &nbsp;&#8212;&nbsp; MTD Target vs Achievement (October 2026)</span></div>
+<div class="tgt-section">
+  <div class="tgt-header">
+    <div class="th-left">
+      <div class="th-label">Month-to-Date &middot; Oct 1&#8211;6 &middot; Plan: Price Drop + Navratri</div>
+      <div class="th-title">October Target vs Actual GMV Tracker</div>
+    </div>
+    <div class="th-right">
+      <div class="tgt-stat ts-ok">
+        <div class="ts-val">&#8377;3,31,981</div>
+        <div class="ts-lbl">Oct 1&#8211;6 Actual</div>
+      </div>
+      <div class="tgt-stat">
+        <div class="ts-val" style="color:rgba(255,255,255,0.55);">&#8377;4,65,600</div>
+        <div class="ts-lbl">Oct 1&#8211;6 Target</div>
+      </div>
+      <div class="tgt-stat ts-warn">
+        <div class="ts-val">&#8209;&#8377;1,33,619</div>
+        <div class="ts-lbl">Shortfall</div>
+      </div>
+      <div class="tgt-stat ts-ok">
+        <div class="ts-val">71.3%</div>
+        <div class="ts-lbl">Achievement %</div>
+      </div>
+    </div>
+  </div>
+  <div class="tgt-body">
+    <div class="tgt-grid">
+      <div class="tgt-kpi">
+        <div class="tk-label">Price Drop Days (30 Sep&#8211;4 Oct)</div>
+        <div class="tk-val" style="color:var(--amber);">&#8377;3,52,274</div>
+        <div class="tk-sub">Target: &#8377;4,88,000 (5d&#215;&#8377;97,600)</div>
+        <div class="tk-badge watch">72.2% &#8212; Below Plan</div>
+      </div>
+      <div class="tgt-kpi">
+        <div class="tk-label">Navratri BAU (5&#8211;6 Oct)</div>
+        <div class="tk-val" style="color:var(--amber);">&#8377;66,944</div>
+        <div class="tk-sub">Target: &#8377;75,200 (2d&#215;&#8377;37,600)</div>
+        <div class="tk-badge watch">89.0% &#8212; Near Plan</div>
+      </div>
+      <div class="tgt-kpi">
+        <div class="tk-label">Oct Full Month Target</div>
+        <div class="tk-val">&#8377;13,00,600</div>
+        <div class="tk-sub">Need &#8377;9,68,619 in 25 days remaining</div>
+        <div class="tk-badge behind">&#8377;38,745/day needed</div>
+      </div>
+    </div>
+
+    <!-- MTD DAILY CHART: Oct 1-6 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <span>October Daily GMV &#8212; Target vs Actual (1&#8211;6 Oct)</span>
+        <div style="display:flex;gap:14px;font-size:11px;font-weight:500;flex-wrap:wrap;">
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;background:#E2E8F0;border-radius:2px;display:inline-block;"></span>Target</span>
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;background:#16A34A;border-radius:2px;display:inline-block;"></span>Beat target</span>
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;background:#D97706;border-radius:2px;display:inline-block;"></span>Near (&gt;75%)</span>
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;background:#E11D48;border-radius:2px;display:inline-block;"></span>Missed</span>
+        </div>
+      </div>
+      <div style="background:#F8FAFC;border-radius:14px;border:1px solid #E2E8F0;padding:20px 16px 14px;">
+        <div style="display:flex;align-items:flex-end;gap:8px;height:160px;">
+          <!-- Context: 30 Sep (sep budget, Price Drop day 1) -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="30 Sep: Target ~97600 (Price Drop Day 1), Actual 87248 GMV">
+            <div style="display:flex;align-items:flex-end;gap:2px;height:140px;width:100%;">
+              <div style="flex:1;background:#E2E8F0;border-radius:3px 3px 0 0;height:100%;" title="Target 97600"></div>
+              <div style="flex:1;background:#D97706;border-radius:3px 3px 0 0;height:89%;" title="Actual 87248 GMV"></div>
+            </div>
+            <div style="font-size:8px;color:#94A3B8;font-weight:600;text-align:center;">30 Sep*</div>
+          </div>
+          <!-- DIVIDER: Sep/Oct boundary -->
+          <div style="width:2px;background:rgba(107,33,168,0.25);border-radius:2px;height:140px;flex-shrink:0;"></div>
+          <!-- 01 Oct -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="01-Oct: Target 97600, Actual 79999 GMV (81.9%)">
+            <div style="display:flex;align-items:flex-end;gap:2px;height:140px;width:100%;">
+              <div style="flex:1;background:#E2E8F0;border-radius:3px 3px 0 0;height:100%;"></div>
+              <div style="flex:1;background:#D97706;border-radius:3px 3px 0 0;height:82%;"></div>
+            </div>
+            <div style="font-size:8px;color:#065F46;font-weight:700;text-align:center;">1 Oct</div>
+          </div>
+          <!-- 02 Oct -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="02-Oct: Target 97600, Actual 81264 GMV (83.3%)">
+            <div style="display:flex;align-items:flex-end;gap:2px;height:140px;width:100%;">
+              <div style="flex:1;background:#E2E8F0;border-radius:3px 3px 0 0;height:100%;"></div>
+              <div style="flex:1;background:#D97706;border-radius:3px 3px 0 0;height:83%;"></div>
+            </div>
+            <div style="font-size:8px;color:#065F46;font-weight:700;text-align:center;">2 Oct</div>
+          </div>
+          <!-- 03 Oct (Sat - lower target ?) -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="03-Oct: Target 97600, Actual 51505 GMV (52.8%)">
+            <div style="display:flex;align-items:flex-end;gap:2px;height:140px;width:100%;">
+              <div style="flex:1;background:#E2E8F0;border-radius:3px 3px 0 0;height:100%;"></div>
+              <div style="flex:1;background:#E11D48;border-radius:3px 3px 0 0;height:53%;"></div>
+            </div>
+            <div style="font-size:8px;color:#065F46;font-weight:700;text-align:center;">3 Oct</div>
+          </div>
+          <!-- 04 Oct (Sun) -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="04-Oct: Target 97600, Actual 52268 GMV (53.6%)">
+            <div style="display:flex;align-items:flex-end;gap:2px;height:140px;width:100%;">
+              <div style="flex:1;background:#E2E8F0;border-radius:3px 3px 0 0;height:100%;"></div>
+              <div style="flex:1;background:#E11D48;border-radius:3px 3px 0 0;height:54%;"></div>
+            </div>
+            <div style="font-size:8px;color:#065F46;font-weight:700;text-align:center;">4 Oct</div>
+          </div>
+          <!-- Divider: Sale ends, Navratri-only -->
+          <div style="width:2px;background:rgba(13,148,136,0.3);border-radius:2px;height:140px;flex-shrink:0;"></div>
+          <!-- 05 Oct (Navratri BAU - lower target 37600) -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="05-Oct: Target 37600, Actual 30411 (80.9%)">
+            <div style="display:flex;align-items:flex-end;gap:2px;height:140px;width:100%;">
+              <div style="flex:1;background:#E2E8F0;border-radius:3px 3px 0 0;height:39%;"></div>
+              <div style="flex:1;background:#D97706;border-radius:3px 3px 0 0;height:31%;"></div>
+            </div>
+            <div style="font-size:8px;color:#0D9488;font-weight:700;text-align:center;">5 Oct</div>
+          </div>
+          <!-- 06 Oct -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="06-Oct: Target 37600, Actual 36534 (97.2%)">
+            <div style="display:flex;align-items:flex-end;gap:2px;height:140px;width:100%;">
+              <div style="flex:1;background:#E2E8F0;border-radius:3px 3px 0 0;height:39%;"></div>
+              <div style="flex:1;background:#16A34A;border-radius:3px 3px 0 0;height:37%;outline:2px solid #15803D;"></div>
+            </div>
+            <div style="font-size:8px;color:#15803D;font-weight:800;text-align:center;">6 Oct*</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;padding:0 4px;font-size:9.5px;color:#94A3B8;flex-wrap:wrap;gap:4px;">
+          <span>*30 Sep counted in Oct Navratri/PD plan (Sep budget)</span>
+          <span style="color:rgba(107,33,168,0.5);">|</span>
+          <span style="font-weight:700;color:#065F46;">Price Drop + Navratri (1&#8211;4 Oct) &mdash; &#8377;97,600/day target</span>
+          <span style="color:rgba(13,148,136,0.4);">|</span>
+          <span style="color:#0D9488;font-weight:700;">Navratri BAU (5&#8211;6 Oct) &mdash; &#8377;37,600/day target</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAILY BREAKDOWN TABLE: OCT 1-6 -->
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:12px;">Daily Breakdown &#8212; Oct 1&#8211;6: Target vs Actual</div>
+      <div class="tdb-row tdb-head">
+        <div class="tdb-head-label">Date</div>
+        <div class="tdb-head-label">Campaign Context</div>
+        <div class="tdb-head-label">Achievement Bar</div>
+        <div class="tdb-head-label" style="text-align:right">Actual / Target</div>
+        <div class="tdb-head-label" style="text-align:right">Achvd %</div>
+      </div>
+      <div class="tdb-row">
+        <div class="tdb-date">1 Oct (Thu)</div>
+        <div class="tdb-event">Price Drop + Navratri</div>
+        <div class="tdb-bar-wrap"><div class="tdb-bar-target"></div><div class="tdb-bar-actual ok" style="width:82%;">&#8377;79,999 GMV</div></div>
+        <div class="tdb-amt">&#8377;79,999 / &#8377;97,600</div>
+        <div class="tdb-pct ok">81.9%</div>
+      </div>
+      <div class="tdb-row">
+        <div class="tdb-date">2 Oct (Fri)</div>
+        <div class="tdb-event">Price Drop + Navratri</div>
+        <div class="tdb-bar-wrap"><div class="tdb-bar-target"></div><div class="tdb-bar-actual ok" style="width:83%;">&#8377;81,264 GMV</div></div>
+        <div class="tdb-amt">&#8377;81,264 / &#8377;97,600</div>
+        <div class="tdb-pct ok">83.3%</div>
+      </div>
+      <div class="tdb-row">
+        <div class="tdb-date">3 Oct (Sat)</div>
+        <div class="tdb-event">Price Drop + Navratri</div>
+        <div class="tdb-bar-wrap"><div class="tdb-bar-target"></div><div class="tdb-bar-actual bad" style="width:53%;">&#8377;51,505</div></div>
+        <div class="tdb-amt">&#8377;51,505 / &#8377;97,600</div>
+        <div class="tdb-pct bad">52.8%</div>
+      </div>
+      <div class="tdb-row">
+        <div class="tdb-date">4 Oct (Sun)</div>
+        <div class="tdb-event">Price Drop last day + Navratri</div>
+        <div class="tdb-bar-wrap"><div class="tdb-bar-target"></div><div class="tdb-bar-actual bad" style="width:54%;">&#8377;52,268</div></div>
+        <div class="tdb-amt">&#8377;52,268 / &#8377;97,600</div>
+        <div class="tdb-pct bad">53.6%</div>
+      </div>
+      <div class="tdb-row">
+        <div class="tdb-date">5 Oct (Mon)</div>
+        <div class="tdb-event">Navratri BAU only</div>
+        <div class="tdb-bar-wrap"><div class="tdb-bar-target"></div><div class="tdb-bar-actual ok" style="width:81%;">&#8377;30,411</div></div>
+        <div class="tdb-amt">&#8377;30,411 / &#8377;37,600</div>
+        <div class="tdb-pct ok">80.9%</div>
+      </div>
+      <div class="tdb-row" style="background:#F0FDF4;">
+        <div class="tdb-date">6 Oct (Tue) &#9733;</div>
+        <div class="tdb-event" style="color:var(--green);font-weight:600;">Navratri BAU &#8212; Near Beat!</div>
+        <div class="tdb-bar-wrap"><div class="tdb-bar-target"></div><div class="tdb-bar-actual good" style="width:97%;">&#8377;36,534 &#8212; 97.2%!</div></div>
+        <div class="tdb-amt" style="color:var(--green);font-weight:700;">&#8377;36,534 / &#8377;37,600</div>
+        <div class="tdb-pct good">97.2% &#9733;</div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px;">&#9432; 30 Sep (GMV &#8377;87,248) was a Price Drop launch day but counted under Sep week. Target: Oct Plan-2 from <em>Oct_Revenue_PL_Aligned</em> spreadsheet. Sat/Sun lower orders are structural &#8212; plan targets same as weekdays; budget re-allocation to Fri/Mon may improve achievement rate.</p>
+    </div>
+
+    <!-- Oct MTD progress bar -->
+    <div style="margin-top:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div style="font-size:12px;font-weight:700;color:var(--slate2);">October MTD Progress (1&#8211;6 Oct) &#8212; Full Month Target &#8377;13,00,600</div>
+        <div style="font-size:12px;font-weight:700;color:var(--amber);">71.3% of 6-day MTD target achieved &#8212; &#8209;&#8377;1,33,619 behind plan</div>
+      </div>
+      <div class="mtd-progress">
+        <div class="mtd-progress-fill mtd-ok" style="width:71.3%;">&#8377;3,31,981 actual &nbsp;|&nbsp; 71.3% of &#8377;4,65,600 MTD target</div>
+      </div>
+      <div class="mtd-progress-label">
+        <span>&#8377;0</span>
+        <span>&#8377;4,65,600 &#8212; 6-day target</span>
+        <span>&#8377;13,00,600 &#8212; Full Oct Target</span>
+      </div>
+    </div>
+
+    <div class="data-flag" style="margin-top:16px;margin-bottom:0;">
+      &#128198; <strong>Remaining October Outlook (7&#8211;31 Oct):</strong> Actual so far &#8377;3,31,981 vs full target &#8377;13,00,600 &#8212; need <strong>&#8377;9,68,619 in 25 remaining days = &#8377;38,745/day.</strong> Navratri (7&#8211;16 Oct) window with &#8377;37,600/day plan remains active. Diwali pre-ramp (17&#8211;31 Oct) must accelerate to &#8377;30,600&#8211;&#8377;50,000+/day. Festive Kit campaign (DP_Festive.Kit_Campaign_07Oct2026) just launched &#8212; monitor closely.
+    </div>
+  </div>
+</div>
+
+<!-- 03 EXECUTIVE READOUT -->
+<div class="sec-label"><span>03 &nbsp;&#8212;&nbsp; Executive Readout</span></div>
+<div class="exec-banner">
+  <div class="eb-title">Management Summary &middot; 30 Sep &#8211; 6 Oct 2026</div>
+  <div class="eb-headline">Sale-driven 2x recovery &#8212; 330 orders and &#8377;4.19L GMV, best week in 5 weeks. Playdough surges to 120 units. Oct MTD 71.3% of plan &#8212; Navratri week-2 is make-or-break for the month.</div>
+  <div class="exec-points">
+    <div class="exec-point good">
+      <div class="ep-icon">&#9650;</div>
+      <div class="ep-title">+121.5% Orders &#8212; Strongest Week Since Ganesh Festival</div>
+      <div class="ep-body">330 orders this week vs 149 last week &#8212; the biggest WoW jump in recorded history. Price Drop Sale (30 Sep&#8211;4 Oct) drove <strong>61&#8211;68 orders/day</strong> in the first 3 days. The demand is clearly there when price is right &#8212; the question is how to sustain post-sale.</div>
+    </div>
+    <div class="exec-point warn">
+      <div class="ep-icon">&#127805;</div>
+      <div class="ep-title">Navratri Active &#8212; Week 2 (7&#8211;16 Oct) Is Critical</div>
+      <div class="ep-body">Navratri campaign (&#8377;3,500/day) drove &#8377;15,809 attributed revenue at 1.21x ROAS in week 1. Performance needs improvement to hit Oct plan. <strong>Push festive gifting combos, handprint &amp; footprint kits, and DIY kits as lead SKUs.</strong> Increase Navratri spend to &#8377;5,000&#8211;7,000/day to accelerate ROAS.</div>
+    </div>
+    <div class="exec-point good">
+      <div class="ep-icon">&#127981;</div>
+      <div class="ep-title">Playdough Comeback &#8212; 120 Units, &#8377;90,805 Gross</div>
+      <div class="ep-body">After hitting crisis-level returns and 0.05x ROAS in Week 39, Playdough rebounded massively: <strong>120 units sold, &#8377;90,805 gross (highest product revenue ever)</strong>. The price drop campaign specifically featured Playdough. Meta Playdough campaign at <strong>2.13x ROAS</strong> &#8212; best performing campaign this week.</div>
+    </div>
+    <div class="exec-point teal">
+      <div class="ep-icon">&#9733;</div>
+      <div class="ep-title">PriceDrop Campaign &#8212; 1.85x ROAS on &#8377;75,855 Spend</div>
+      <div class="ep-body">The new <strong>DP_PriceDrop_Campaign</strong> generated &#8377;1,40,509 revenue from &#8377;75,855 spend &#8212; 105 purchases, CPP &#8377;722. This is the best CPP seen in 6 weeks. The campaign model (sale + specific product drop) is proven and should be the template for Diwali.</div>
+    </div>
+    <div class="exec-point warn">
+      <div class="ep-icon">&#9660;</div>
+      <div class="ep-title">Weekend Orders Drop &#8212; Sat/Sun Only 40&#8211;41 Orders</div>
+      <div class="ep-body">Thursday&#8211;Friday led with 61&#8211;68 orders. Saturday (41) and Sunday (40) fell off sharply despite the same &#8377;97,600 daily target. <strong>Weekend Meta spend efficiency is lower</strong> &#8212; consider shifting budget toward Thu/Fri and Mon for better CAC during Navratri week-2.</div>
+    </div>
+    <div class="exec-point warn">
+      <div class="ep-icon">&#127760;</div>
+      <div class="ep-title">DP_Testing Campaign &#8212; 0.11x ROAS &#8212; Pause</div>
+      <div class="ep-body">DP_Testing_All.Products_Campaign_01Oct2026 spent &#8377;5,233 for just 1 purchase (&#8377;574 revenue) &#8212; <strong>0.11x ROAS</strong>. Pause and redirect to PriceDrop or ABO Testing. Magic Dust also slid to 0.83x &#8212; reduce spend or test new creative angles.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 DAILY PERFORMANCE -->
+<div class="sec-label"><span>04 &nbsp;&#8212;&nbsp; Daily Performance</span></div>
+<div class="daily-grid">
+  <div class="chart-card">
+    <div class="cc-title">Daily Total Sales (GMV)</div>
+    <div class="cc-sub">Current week (teal) vs Previous week (grey) &middot; &#8377;</div>
+    <div class="bar-day-chart">
+      <!-- Max this week: 87248 (30 Sep) ~ normalize to 90000 -->
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:97%" title="30 Sep: &#8377;87,248 (Price Drop Day 1)"></div><div class="bdc-bar prev" style="height:18%" title="23 Sep: &#8377;15,889 (prev)"></div></div><div class="bdc-label">30S</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:89%" title="1 Oct: &#8377;79,999"></div><div class="bdc-bar prev" style="height:33%" title="24 Sep: &#8377;29,873 (prev)"></div></div><div class="bdc-label">1O</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:90%" title="2 Oct: &#8377;81,264"></div><div class="bdc-bar prev" style="height:27%" title="25 Sep: &#8377;24,632 (prev)"></div></div><div class="bdc-label">2O</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr low" style="height:57%" title="3 Oct: &#8377;51,505 (Sat &#8212; lower)"></div><div class="bdc-bar prev" style="height:37%" title="26 Sep: &#8377;33,488 (prev)"></div></div><div class="bdc-label">3O Sat</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr low" style="height:58%" title="4 Oct: &#8377;52,268 (Sun &#8212; lower)"></div><div class="bdc-bar prev" style="height:29%" title="27 Sep: &#8377;25,799 (prev)"></div></div><div class="bdc-label">4O Sun</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:34%" title="5 Oct: &#8377;30,411 (Navratri BAU)"></div><div class="bdc-bar prev" style="height:36%" title="28 Sep: &#8377;32,371 (prev)"></div></div><div class="bdc-label">5O</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:41%" title="6 Oct: &#8377;36,534"></div><div class="bdc-bar prev" style="height:33%" title="29 Sep: &#8377;29,980 (prev)"></div></div><div class="bdc-label">6O</div></div>
+    </div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:var(--teal)"></div>30 Sep&#8211;6 Oct</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#E2E8F0"></div>23&#8211;29 Sep</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--amber)"></div>Sat/Sun dip</div>
+    </div>
+  </div>
+  <div class="chart-card">
+    <div class="cc-title">Daily Orders (Shopify)</div>
+    <div class="cc-sub">Current week (teal) vs Previous week (grey) &middot; Count &middot; Shopflo checkout data</div>
+    <div class="bar-day-chart">
+      <!-- Max: 68 orders (2 Oct) -->
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:90%" title="30 Sep: 61 orders"></div><div class="bdc-bar prev" style="height:19%" title="23 Sep: 13 orders (prev)"></div></div><div class="bdc-label">30S</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:96%" title="1 Oct: 65 orders"></div><div class="bdc-bar prev" style="height:31%" title="24 Sep: 21 orders (prev)"></div></div><div class="bdc-label">1O</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:100%" title="2 Oct: 68 orders (week high)"></div><div class="bdc-bar prev" style="height:38%" title="25 Sep: 26 orders (prev)"></div></div><div class="bdc-label">2O &#9733;</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr low" style="height:60%" title="3 Oct: 41 orders (Sat dip)"></div><div class="bdc-bar prev" style="height:31%" title="26 Sep: 21 orders (prev)"></div></div><div class="bdc-label">3O Sat</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr low" style="height:59%" title="4 Oct: 40 orders (Sun dip)"></div><div class="bdc-bar prev" style="height:28%" title="27 Sep: 19 orders (prev)"></div></div><div class="bdc-label">4O Sun</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:35%" title="5 Oct: 24 orders (Navratri BAU)"></div><div class="bdc-bar prev" style="height:35%" title="28 Sep: 24 orders (prev)"></div></div><div class="bdc-label">5O</div></div>
+      <div class="bdc-col"><div class="bdc-bars"><div class="bdc-bar curr" style="height:46%" title="6 Oct: 31 orders"></div><div class="bdc-bar prev" style="height:37%" title="29 Sep: 25 orders (prev)"></div></div><div class="bdc-label">6O</div></div>
+    </div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:var(--teal)"></div>30 Sep&#8211;6 Oct</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#E2E8F0"></div>23&#8211;29 Sep</div>
+    </div>
+  </div>
+</div>
+
+<div style="overflow:auto;margin-top:14px;">
+  <table class="dtable" style="min-width:680px;">
+    <thead><tr><th style="text-align:left">Day</th><th>Date</th><th>GMV</th><th>Orders</th><th>AOV</th><th>Sessions</th><th>Checkouts</th><th>Completed</th><th>Conv %</th></tr></thead>
+    <tbody>
+      <tr><td>Tue (Sale Day 1)</td><td>30 Sep</td><td>&#8377;87,248</td><td style="color:var(--teal);font-weight:700">61</td><td>&#8377;1,212</td><td>1,721</td><td>91</td><td>60</td><td>65.9%</td></tr>
+      <tr><td>Thu</td><td>1 Oct</td><td>&#8377;79,999</td><td style="color:var(--teal);font-weight:700">65</td><td>&#8377;1,053</td><td>1,878</td><td>91</td><td>64</td><td>70.3%</td></tr>
+      <tr><td>Fri</td><td>2 Oct</td><td>&#8377;81,264</td><td style="color:var(--teal);font-weight:700">68 &#9733;</td><td>&#8377;1,017</td><td>1,627</td><td>96</td><td>65</td><td>67.7%</td></tr>
+      <tr style="background:#FFFBEB;"><td>Sat &#9660;</td><td>3 Oct</td><td>&#8377;51,505</td><td style="color:var(--amber);font-weight:700">41</td><td>&#8377;1,069</td><td>1,073</td><td>61</td><td>41</td><td>67.2%</td></tr>
+      <tr style="background:#FFFBEB;"><td>Sun &#9660;</td><td>4 Oct</td><td>&#8377;52,268</td><td style="color:var(--amber);font-weight:700">40</td><td>&#8377;1,119</td><td>1,038</td><td>65</td><td>40</td><td>61.5%</td></tr>
+      <tr><td>Mon (Navratri)</td><td>5 Oct</td><td>&#8377;30,411</td><td>24</td><td>&#8377;1,094</td><td>801</td><td>39</td><td>24</td><td>61.5%</td></tr>
+      <tr><td>Tue (Navratri)</td><td>6 Oct</td><td>&#8377;36,534</td><td>31</td><td>&#8377;1,032</td><td>908</td><td>51</td><td>30</td><td>58.8%</td></tr>
+    </tbody>
+    <tfoot><tr><td>Week Total</td><td>&ndash;</td><td><strong>&#8377;4,19,229</strong></td><td><strong>330</strong></td><td><strong>&#8377;1,086 avg</strong></td><td><strong>9,046</strong></td><td><strong>494</strong></td><td><strong>324</strong></td><td><strong>65.6% avg</strong></td></tr></tfoot>
+  </table>
+</div>
+<p style="font-size:11px;color:var(--muted);margin-top:6px;">&#9432; Shopflo funnel data from <em>weeklyjreportjfunnelj30jsepj6joctj2026</em>. Thursday 30 Sep was the Price Drop launch day with highest GMV (&#8377;87,248). Friday 2 Oct highest orders (68). Saturday &amp; Sunday orders dropped ~40% from weekday levels despite comparable meta spend &#8212; structural weekend pattern.</p>
+
+<!-- 05 REVENUE & P&L -->
+<div class="sec-label"><span>05 &nbsp;&#8212;&nbsp; Revenue &amp; Efficiency Drivers</span></div>
+<div class="driver-row">
+  <div class="driver-cell"><div class="dc-label">Sessions</div><div class="dc-val">9,046</div><div class="dc-arrow up">&#9650; +102.3% (4,471 prev)</div></div>
+  <div class="driver-cell"><div class="dc-label">Shopify Orders</div><div class="dc-val">330</div><div class="dc-arrow up">&#9650; +121.5% (149 prev)</div></div>
+  <div class="driver-cell"><div class="dc-label">AOV (Gross/Orders)</div><div class="dc-val">&#8377;1,086</div><div class="dc-arrow down">&#9660; &#8209;6.4% (&#8377;1,161 prev)</div></div>
+  <div class="driver-cell"><div class="dc-label">ATC Rate (Shopify)</div><div class="dc-val">10.5%</div><div class="dc-arrow up">&#9650; vs ~5.6% prev (sale landing)</div></div>
+  <div class="driver-cell"><div class="dc-label">Checkout Conv. (Shopflo)</div><div class="dc-val">65.6%</div><div class="dc-arrow down">&#9660; vs ~68% prev (higher volume)</div></div>
+</div>
+<div style="background:white;border-radius:14px;padding:20px 22px;border:1px solid var(--border);margin-top:4px;">
+  <div style="font-size:13px;font-weight:700;margin-bottom:8px;">Revenue Driver Narrative</div>
+  <p style="font-size:13px;color:var(--slate2);line-height:1.7;">The Price Drop Sale acted as a strong demand catalyst, tripling orders overnight. The <strong>ATC rate surged to 10.5%</strong> (from ~5.6% in the prior week) as sale pricing drove high purchase intent at the landing page level. The Bestseller Collection page alone generated <strong>4,211 sessions with 483 cart additions (11.5% ATC)</strong> &#8212; confirming price-sensitive buyers respond strongly to the Playdough listing when discounted. AOV compressed slightly to &#8377;1,086 vs &#8377;1,161 &#8212; expected during a sale. Shopflo checkout conversion averaged 65.6% &#8212; slightly lower than the 68&#8211;70% typical rate, likely reflecting higher impulse traffic. <strong>Saturday and Sunday remain the structural weak spots</strong> at 40&#8211;41 orders vs 61&#8211;68 on weekdays even during the same sale.</p>
+</div>
+
+<div style="overflow:auto;margin-top:14px;">
+  <table class="dtable" style="min-width:500px;">
+    <thead><tr><th style="text-align:left">P&amp;L Line</th><th>30 Sep&#8211;6 Oct</th><th>23&#8211;29 Sep</th><th>Change</th><th>Change %</th></tr></thead>
+    <tbody>
+      <tr><td>Gross Sales</td><td>&#8377;3,58,343</td><td>&#8377;1,72,923</td><td style="color:var(--green)">&#9650; +&#8377;1,85,420</td><td style="color:var(--green)">&#9650; +107.2%</td></tr>
+      <tr><td>Discounts</td><td>&#8209;&#8377;7,792</td><td>&#8209;&#8377;11,372</td><td style="color:var(--green)">Less discount (-&#8377;3,580)</td><td style="color:var(--green)">&#9660; &#8209;31.5%</td></tr>
+      <tr><td>Sales Reversals</td><td>&#8209;&#8377;2,057</td><td>&#8209;&#8377;1,144</td><td style="color:var(--rose)">&#9650; more returns</td><td style="color:var(--muted)">+79.8% (routine)</td></tr>
+      <tr><td><strong>Net Sales</strong></td><td><strong>&#8377;3,48,494</strong></td><td><strong>&#8377;1,60,407</strong></td><td style="color:var(--green);font-weight:700">&#9650; +&#8377;1,88,087</td><td style="color:var(--green);font-weight:700">&#9650; +117.3%</td></tr>
+      <tr><td>Shipping + Taxes</td><td>&#8377;70,734</td><td>&#8377;31,623</td><td style="color:var(--muted)">&mdash;</td><td style="color:var(--muted)">&mdash;</td></tr>
+      <tr><td><strong>Total GMV</strong></td><td><strong>&#8377;4,19,229</strong></td><td><strong>&#8377;1,92,030</strong></td><td style="color:var(--green);font-weight:700">&#9650; +&#8377;2,27,199</td><td style="color:var(--green);font-weight:700">&#9650; +118.3%</td></tr>
+    </tbody>
+  </table>
+</div>
+<p style="font-size:11px;color:var(--muted);margin-top:6px;">&#9432; Reversals: #DP38264 Magic Paint Dust Combo &#8209;&#8377;1,013 (01 Oct), #DP38184 DIY Playdough &#8209;&#8377;432 (05 Oct), #DP38299 Playdough &#8209;&#8377;612 (06 Oct). All routine &#8212; no bulk order distortion.</p>
+
+<!-- 06 META ACQUISITION -->
+<div class="sec-label"><span>06 &nbsp;&#8212;&nbsp; Meta Acquisition</span></div>
+<div class="meta-summary">
+  <div class="ms-card hero"><div class="ms-label">Total Meta Spend</div><div class="ms-val">&#8377;2,39,088</div><div class="ms-sub">30 Sep&#8211;6 Oct &middot; Sale scale-up</div><div class="ms-wow up">&#9650; +&#8377;1,29,997 vs &#8377;1,09,091 prev (+119%)</div></div>
+  <div class="ms-card"><div class="ms-label">Meta Attr. Revenue</div><div class="ms-val">&#8377;3,55,594</div><div class="ms-sub">7-day click + 1-day view</div><div class="ms-wow up">&#9650; +&#8377;2,09,677 vs &#8377;1,45,917 prev</div></div>
+  <div class="ms-card"><div class="ms-label">Meta Attr. ROAS</div><div class="ms-val">1.49x</div><div class="ms-sub">Meta revenue / Meta spend</div><div class="ms-wow up">&#9650; +0.15x vs 1.34x prev</div></div>
+  <div class="ms-card"><div class="ms-label">Blended ROAS (GMV/Spend)</div><div class="ms-val">1.75x</div><div class="ms-sub">Shopify GMV / Meta Spend</div><div class="ms-wow flat">&#8776; Stable vs 1.76x prev</div></div>
+</div>
+<div class="meta-summary" style="margin-top:12px;">
+  <div class="ms-card"><div class="ms-label">Meta Purchases (Attr.)</div><div class="ms-val">283</div><div class="ms-sub">All active campaigns</div><div class="ms-wow up">&#9650; +179 vs 104 prev (+172%)</div></div>
+  <div class="ms-card"><div class="ms-label">Cost Per Purchase (CPP)</div><div class="ms-val">&#8377;845</div><div class="ms-sub">Meta Spend / Purchases</div><div class="ms-wow up">&#9650; vs &#8377;1,049 prev (improved!)</div></div>
+  <div class="ms-card"><div class="ms-label">Total Impressions</div><div class="ms-val">4,46,592</div><div class="ms-sub">All active campaigns</div><div class="ms-wow up">&#9650; vs ~2,00,000 prev (+123%)</div></div>
+  <div class="ms-card"><div class="ms-label">Meta Adds to Cart</div><div class="ms-val">1,809</div><div class="ms-sub">All active campaigns</div><div class="ms-wow up">&#9650; vs 483 prev (+274%)</div></div>
+</div>
+
+<div style="margin-top:16px;">
+<div style="font-size:13px;font-weight:700;margin-bottom:12px;">Active Campaigns &#8212; 30 Sep&#8211;6 Oct &middot; Ranked by Spend</div>
+<div class="camp-table">
+  <div class="ct-row ct-head"><div class="ct-head-label">Campaign</div><div class="ct-head-label">Spend (relative)</div><div class="ct-head-label" style="text-align:right">Spend</div><div class="ct-head-label" style="text-align:right">Attr. Revenue</div><div class="ct-head-label" style="text-align:center">ROAS</div></div>
+  <div class="ct-row"><div class="ct-name">&#127385; DP PriceDrop Campaign <span class="best-tag">BEST</span></div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:100%;background:var(--green);">&#8377;75,855 &middot; 105 purchases</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;75,855</div><div style="font-size:12px;font-weight:700;text-align:right;color:var(--green);">&#8377;1,40,509</div><div><span class="roas-badge rb-green">1.85x</span></div></div>
+  <div class="ct-row"><div class="ct-name">DP ABO Testing Campaign</div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:65%;background:var(--teal);">&#8377;49,633 &middot; 55 purchases</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;49,633</div><div style="font-size:12px;font-weight:700;text-align:right;color:var(--muted);">&#8377;63,104</div><div><span class="roas-badge rb-teal">1.27x</span></div></div>
+  <div class="ct-row"><div class="ct-name">DP All Products Campaign</div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:40%;background:var(--purple);">&#8377;30,166 &middot; 29 purch.</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;30,166</div><div style="font-size:12px;font-weight:700;text-align:right;color:var(--muted);">&#8377;39,487</div><div><span class="roas-badge rb-teal">1.31x</span></div></div>
+  <div class="ct-row"><div class="ct-name">DP FingerPaint Campaign</div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:34%;background:var(--purple);">&#8377;25,549 &middot; 25 purch.</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;25,549</div><div style="font-size:12px;font-weight:700;text-align:right;color:var(--muted);">&#8377;33,860</div><div><span class="roas-badge rb-teal">1.33x</span></div></div>
+  <div class="ct-row"><div class="ct-name">&#127981; DP Playdough Campaign <span class="best-tag">COMEBACK!</span></div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:22%;background:var(--green);">&#8377;16,366 &middot; 33 purch.</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;16,366</div><div style="font-size:12px;font-weight:700;text-align:right;color:var(--green);">&#8377;34,941</div><div><span class="roas-badge rb-green">2.13x &#9650;</span></div></div>
+  <div class="ct-row"><div class="ct-name">DP Navratri Campaign <span class="new-tag">NEW</span></div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:17%;background:var(--amber);">&#8377;13,069 &middot; 17 purch.</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;13,069</div><div style="font-size:12px;font-weight:700;text-align:right;color:var(--amber);">&#8377;15,809</div><div><span class="roas-badge rb-amber">1.21x</span></div></div>
+  <div class="ct-row"><div class="ct-name">Prospecting &#8212; FP + Magic Dust</div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:16%;background:var(--teal);">&#8377;12,484 &middot; 10 purch.</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;12,484</div><div style="font-size:12px;font-weight:700;text-align:right;color:var(--muted);">&#8377;18,437</div><div><span class="roas-badge rb-teal">1.48x</span></div></div>
+  <div class="ct-row"><div class="ct-name">DP Magic Dust Campaign <span class="warn-tag">DECLINING</span></div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:14%;background:var(--rose);">&#8377;10,733 &middot; 8 purch.</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;10,733</div><div style="font-size:12px;font-weight:700;text-align:right;color:var(--rose);">&#8377;8,873</div><div><span class="roas-badge rb-rose">0.83x &#9660;</span></div></div>
+  <div class="ct-row"><div class="ct-name">DP Testing &#8212; All Products <span class="low-tag">PAUSE</span></div><div class="ct-bar-wrap"><div class="ct-bar-track"><div class="ct-bar-fill" style="width:7%;background:#DC2626;">&#8377;5,233 &middot; 1 purch.</div></div></div><div style="font-size:12px;font-weight:600;text-align:right;">&#8377;5,233</div><div style="font-size:12px;font-weight:700;text-align:right;color:#E11D48;">&#8377;574</div><div><span class="roas-badge rb-red">0.11x &#128683;</span></div></div>
+</div>
+</div>
+
+<div style="overflow:auto;margin-top:14px;">
+<div style="font-size:13px;font-weight:700;margin-bottom:10px;">Campaign WoW Comparison</div>
+<table class="dtable" style="min-width:720px;">
+  <thead><tr><th style="text-align:left">Campaign</th><th>Spend (Curr)</th><th>ROAS (Curr)</th><th>Spend (Prev)</th><th>ROAS (Prev)</th><th>Spend Delta</th><th>ROAS Delta</th></tr></thead>
+  <tbody>
+    <tr><td>DP PriceDrop &#127385; (NEW this week)</td><td>&#8377;75,855</td><td><span class="roas-badge rb-green">1.85x</span></td><td>&#8377;1,470</td><td><span class="roas-badge rb-green">3.42x (launch)</span></td><td style="color:var(--teal)">&#9650; +&#8377;74,385 (main sale)</td><td style="color:var(--muted)">&#8212; different scale</td></tr>
+    <tr><td>DP ABO Testing</td><td>&#8377;49,633</td><td><span class="roas-badge rb-teal">1.27x</span></td><td>&#8377;49,626</td><td><span class="roas-badge rb-teal">1.23x</span></td><td style="color:var(--muted)">&asymp; flat</td><td style="color:var(--green)">&#9650; +0.04x (stable)</td></tr>
+    <tr><td>DP All Products</td><td>&#8377;30,166</td><td><span class="roas-badge rb-teal">1.31x</span></td><td>&#8377;14,357</td><td><span class="roas-badge rb-green">1.75x</span></td><td style="color:var(--teal)">&#9650; +&#8377;15,809</td><td style="color:var(--rose)">&#9660; &#8209;0.44x (watch)</td></tr>
+    <tr><td>DP FingerPaint</td><td>&#8377;25,549</td><td><span class="roas-badge rb-teal">1.33x</span></td><td>&#8377;14,950</td><td><span class="roas-badge rb-teal">1.24x</span></td><td style="color:var(--teal)">&#9650; +&#8377;10,599</td><td style="color:var(--green)">&#9650; +0.09x</td></tr>
+    <tr><td>DP Playdough &#127981; COMEBACK</td><td>&#8377;16,366</td><td><span class="roas-badge rb-green">2.13x</span></td><td>&#8377;5,278</td><td><span class="roas-badge rb-teal">1.28x</span></td><td style="color:var(--teal)">&#9650; +&#8377;11,088</td><td style="color:var(--green);font-weight:700">&#9650; +0.85x (huge recovery!)</td></tr>
+    <tr><td>Navratri Campaign (NEW)</td><td>&#8377;13,069</td><td><span class="roas-badge rb-amber">1.21x</span></td><td>&#8212;</td><td>&#8212;</td><td style="color:var(--teal)">NEW</td><td style="color:var(--muted)">Needs improvement</td></tr>
+    <tr><td>Prospecting FP+MD</td><td>&#8377;12,484</td><td><span class="roas-badge rb-teal">1.48x</span></td><td>&#8377;10,998</td><td><span class="roas-badge rb-green">1.87x</span></td><td style="color:var(--muted)">&asymp; flat</td><td style="color:var(--rose)">&#9660; &#8209;0.39x (declining)</td></tr>
+    <tr><td>DP Magic Dust</td><td>&#8377;10,733</td><td><span class="roas-badge rb-rose">0.83x</span></td><td>&#8377;12,411</td><td><span class="roas-badge rb-rose">0.72x</span></td><td style="color:var(--green)">&#9660; &#8209;&#8377;1,678 (good)</td><td style="color:var(--rose)">Still below breakeven</td></tr>
+    <tr><td>DP Testing All Products</td><td>&#8377;5,233</td><td><span class="roas-badge rb-red">0.11x &#128683;</span></td><td>&#8212;</td><td>&#8212;</td><td style="color:var(--rose)">NEW &mdash; PAUSE</td><td style="color:var(--rose)">1 purchase for &#8377;5,233 spend</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="data-flag" style="margin-top:12px;">
+  &#9888; <strong>Immediate Campaign Actions:</strong> (1) PAUSE DP_Testing_All_Products immediately &#8212; 0.11x ROAS, &#8377;5,233 wasted. (2) Reduce Magic Dust to &#8377;5K/week or pause &#8212; 0.83x for 2 weeks running. (3) Scale Playdough campaign &#8212; 2.13x is the best ROAS this week. (4) Boost Navratri campaign to &#8377;5,000&#8211;7,000/day &#8212; currently under-spends vs plan. (5) Festive Kit campaign (DP_Festive.Kit_Campaign_07Oct2026) launched 7 Oct &#8212; monitor first 48hrs.
+</div>
+
+<!-- 07 PRODUCT PERFORMANCE -->
+<div class="sec-label"><span>07 &nbsp;&#8212;&nbsp; Product Performance</span></div>
+<div class="data-flag teal">
+  &#9432; <strong>Playdough Dominates &#8212; 120 units (&#8377;90,805 gross)</strong> vs 32 units (&#8377;27,352) last week &#8212; a 275% surge. Price Drop sale specifically featured Playdough. New products entering portfolio: Handprint/Footprint Kit (12 units), ABC Trace Kit (8 units), Festive Rituals Kit (5 units) &#8212; confirming successful catalogue expansion.
+</div>
+<div style="overflow:auto;">
+  <table class="dtable" style="min-width:640px;">
+    <thead><tr><th style="text-align:left">Product</th><th>Units</th><th>Gross Sales</th><th>Discounts</th><th>Reversals</th><th>Net Sales</th></tr></thead>
+    <tbody>
+      <tr style="background:#F0FDF4;"><td>dabble Sensory Playdough <span class="best-tag">&#9650; 275% WoW</span></td><td style="color:var(--green);font-weight:700">120</td><td>&#8377;79,219</td><td>&#8209;&#8377;1,384</td><td style="color:var(--rose)">&#8209;&#8377;612</td><td>&#8377;77,222</td></tr>
+      <tr><td>Magic Paint Dust &#8212; Baby's First Painting Kit</td><td>41</td><td>&#8377;27,997</td><td>&#8209;&#8377;407</td><td>&mdash;</td><td>&#8377;27,590</td></tr>
+      <tr><td>Finger Paints + Sensory Playdough Combo <span class="new-tag">NEW</span></td><td>23</td><td>&#8377;30,267</td><td>&#8209;&#8377;811</td><td>&mdash;</td><td>&#8377;29,456</td></tr>
+      <tr><td>Dabble Finger Painting Fun Pack</td><td>19</td><td>&#8377;19,040</td><td>&#8209;&#8377;481</td><td>&mdash;</td><td>&#8377;18,558</td></tr>
+      <tr><td>Dabble Playart Finger Paints</td><td>28</td><td>&#8377;18,446</td><td>&#8209;&#8377;362</td><td>&mdash;</td><td>&#8377;18,084</td></tr>
+      <tr><td>Baby's Starter Painting + Jumbo Brush Combo</td><td>15</td><td>&#8377;13,497</td><td>&#8209;&#8377;199</td><td>&mdash;</td><td>&#8377;13,297</td></tr>
+      <tr><td>Little Artist Combo Kit</td><td>9</td><td>&#8377;12,004</td><td>&#8209;&#8377;259</td><td>&mdash;</td><td>&#8377;11,745</td></tr>
+      <tr><td>Mini Starter Finger Painting Fun Pack</td><td>21</td><td>&#8377;9,583</td><td>&#8209;&#8377;160</td><td>&mdash;</td><td>&#8377;9,423</td></tr>
+      <tr><td>Magic Paint Dust + Jumbo Brush Combo</td><td>8</td><td>&#8377;9,638</td><td>&#8209;&#8377;172</td><td style="color:var(--rose)">&#8209;&#8377;1,013</td><td>&#8377;8,453</td></tr>
+      <tr><td>Dabble Starter + Chubby Brush Combo</td><td>11</td><td>&#8377;8,996</td><td>&#8209;&#8377;158</td><td>&mdash;</td><td>&#8377;8,838</td></tr>
+      <tr><td>Dabble Art Roll <span class="new-tag">&#9650;</span></td><td>15</td><td>&#8377;8,179</td><td>&#8209;&#8377;183</td><td>&mdash;</td><td>&#8377;7,996</td></tr>
+      <tr><td>Baby's Handprint &amp; Footprint Kit <span class="new-tag">NEW ENTRY</span></td><td>12</td><td>&#8377;6,977</td><td>&#8209;&#8377;93</td><td>&mdash;</td><td>&#8377;6,884</td></tr>
+      <tr><td>My First Dabble Swingin' Jungle + Crayons <span class="new-tag">NEW</span></td><td>8</td><td>&#8377;5,983</td><td>&#8209;&#8377;74</td><td>&mdash;</td><td>&#8377;5,909</td></tr>
+      <tr><td>Dabble DIY Sensory Playdough Kit</td><td>10</td><td>&#8377;5,041</td><td>&#8209;&#8377;126</td><td style="color:var(--rose)">&#8209;&#8377;432</td><td>&#8377;4,484</td></tr>
+      <tr><td>My Dabble ABC Trace &amp; Colour Kit <span class="new-tag">NEW</span></td><td>8</td><td>&#8377;4,348</td><td>&#8209;&#8377;155</td><td>&mdash;</td><td>&#8377;4,194</td></tr>
+      <tr><td>Dabble Sensory 4-in-1 Festive Rituals Kit <span class="new-tag">SEASONAL</span></td><td>5</td><td>&#8377;3,363</td><td>&#8209;&#8377;134</td><td>&mdash;</td><td>&#8377;3,229</td></tr>
+    </tbody>
+    <tfoot><tr><td>All Products (62 SKUs)</td><td>~530+ items</td><td>&#8377;3,58,343</td><td>&#8209;&#8377;7,792</td><td>&#8209;&#8377;2,057</td><td>&#8377;3,48,494</td></tr></tfoot>
+  </table>
+</div>
+
+<!-- 08 CONVERSION FUNNEL -->
+<div class="sec-label"><span>08 &nbsp;&#8212;&nbsp; Conversion Funnel (Shopflo &#8212; 30 Sep&#8211;6 Oct)</span></div>
+<div class="fv-wrap">
+  <div class="fv-step">
+    <div class="fv-num">9,046</div>
+    <div class="fv-name">Sessions</div>
+    <div class="fv-rate">&mdash;</div>
+  </div>
+  <div class="fv-step">
+    <div class="fv-num">~951</div>
+    <div class="fv-name">Add to Cart</div>
+    <div class="fv-rate">10.5% of sessions</div>
+  </div>
+  <div class="fv-step">
+    <div class="fv-num">494</div>
+    <div class="fv-name">Checkout Init.</div>
+    <div class="fv-rate warn">51.9% of ATC</div>
+  </div>
+  <div class="fv-step">
+    <div class="fv-num">443</div>
+    <div class="fv-name">Login Done</div>
+    <div class="fv-rate warn">89.7% of checkout</div>
+  </div>
+  <div class="fv-step">
+    <div class="fv-num">358</div>
+    <div class="fv-name">Payment Selected</div>
+    <div class="fv-rate warn">80.8% of login</div>
+  </div>
+  <div class="fv-step fv-hl">
+    <div class="fv-num">324</div>
+    <div class="fv-name">Order Completed</div>
+    <div class="fv-rate">90.5% of payment</div>
+  </div>
+</div>
+<p style="font-size:11px;color:var(--muted);margin-top:8px;">Shopflo daily data aggregated (30 Sep&#8211;6 Oct). ATC count estimated from Shopify Conversion Funnel Dashboard (10.53% ATC rate x 9,046 sessions). Payment-to-order 90.5% reflects slight drop from 95%+ in prior weeks &#8212; expected with higher volume and more impulse buyers during sale.</p>
+<div class="insight-row">
+  <div class="ins-card amber">
+    <div class="ins-title">&#9660; ATC&#8594;Checkout Drop 51.9% &#8212; Cart Abandonment Spike</div>
+    <div class="ins-body">While ATC rate surged to <strong>10.5%</strong> (sale-driven), only <strong>51.9% of cart additions reach checkout</strong> &#8212; down from ~85&#8211;90% in quieter weeks. This suggests many sale-browsers adding to cart without intent. <strong>Abandoned checkout recovery (WhatsApp/SMS)</strong> is critical &#8212; the abandoned checkout file has 103K+ rows of recovery opportunities.</div>
+  </div>
+  <div class="ins-card green">
+    <div class="ins-title">&#9650; Bestseller Collection Page &#8212; 4,211 Sessions, 11.5% ATC</div>
+    <div class="ins-body">The <strong>Bestseller Collection page drove 4,211 sessions (46% of all traffic)</strong> with 483 cart additions &#8212; the highest ATC rate of any landing destination. Playdough product page alone drove 1,803 sessions. This confirms <strong>the Price Drop + Bestseller Collection is the highest-converting funnel combination</strong> and should be used as the primary Diwali landing strategy.</div>
+  </div>
+</div>
+
+<!-- 09 CUSTOMER MIX -->
+<div class="sec-label"><span>09 &nbsp;&#8212;&nbsp; Customer Mix</span></div>
+<div class="cust-grid">
+  <div class="cust-card">
+    <div class="cc-t">Customer Type Split &#8212; 30 Sep&#8211;6 Oct vs 23&#8211;29 Sep</div>
+    <div class="prog-row">
+      <div class="prog-labels"><span class="pn">New Customers</span><span>248 (75.2%) &middot; prev: 103 (69.1%)</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:75.2%;background:var(--teal);"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-labels"><span class="pn">Returning Customers</span><span>82 (24.8%) &middot; prev: 46 (30.9%)</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:24.8%;background:var(--purple);"></div></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6;">Total customers: <strong>330</strong> vs 149 prev &#8212; both new and returning grew significantly. New customers +140.8% WoW driven by sale acquisition. Returning rate compressed to 24.8% (from 30.9%) as new customer flood dilutes the ratio &#8212; this is healthy and expected during a sale event. <strong>Retain the 248 new buyers through post-purchase nurture for Diwali.</strong></p>
+  </div>
+  <div class="cust-card">
+    <div class="cc-t">Landing Page Performance &#8212; Top 5 Sources</div>
+    <div class="prog-row">
+      <div class="prog-labels"><span class="pn">Bestseller Collection</span><span>4,211 sessions &middot; 483 ATC (11.5%)</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:100%;background:var(--teal);"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-labels"><span class="pn">Playdough Product Page</span><span>1,803 sessions &middot; 198 ATC (11.0%)</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:43%;background:var(--green);"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-labels"><span class="pn">Homepage</span><span>651 sessions &middot; 96 ATC (14.7%)</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:15%;background:var(--purple);"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-labels"><span class="pn">Baby Starter + Jumbo Brush</span><span>261 sessions &middot; 40 ATC (15.3%)</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:6%;background:var(--amber);"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-labels"><span class="pn">Magic Paint Dust Page</span><span>240 sessions &middot; 33 ATC (13.8%)</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:6%;background:var(--amber);"></div></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6;">Bestseller Collection + Playdough page = <strong>62% of all traffic</strong> this week. Homepage has the highest ATC rate at 14.7%. Baby Starter Combo (15.3%) and Magic Paint Dust (13.8%) &#8212; strong mid-ticket converters worth featuring in Navratri creative.</p>
+  </div>
+</div>
+
+<!-- 10 DATA REQUESTS & OPPORTUNITIES -->
+<div class="sec-label"><span>10 &nbsp;&#8212;&nbsp; Data Gaps &amp; Additional Insights Needed</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+  <div class="ins-card purple">
+    <div class="ins-title">&#128247; Abandoned Checkout Recovery (Available)</div>
+    <div class="ins-body">You have a <strong>103K row abandoned checkout file</strong> (abandonedjcheckoutjweeklyjsepj30jtoj6joct). This is a goldmine &#8212; segment by order value, product, and time-to-abandon. <strong>WhatsApp/SMS recovery sequence for cart abandoners could recover 15&#8211;20% of lost GMV</strong> (est. &#8377;30K&#8211;50K additional revenue per week). Can pull this analysis if you share a breakdown of top abandoned SKUs and average abandon cart value.</div>
+  </div>
+  <div class="ins-card amber">
+    <div class="ins-title">&#128200; Missing: Daily Meta Campaign Breakdown</div>
+    <div class="ins-body">We have weekly campaign totals but not daily spend + ROAS by campaign. Sharing <strong>day-level Meta Ads data</strong> would let us identify exactly which weekdays each campaign performs best &#8212; allowing <strong>dayparting budget optimisation</strong> (e.g., shift Sat/Sun budget to Fri/Mon). This is especially critical during Navratri and Diwali windows.</div>
+  </div>
+  <div class="ins-card teal">
+    <div class="ins-title">&#128241; WhatsApp / Email Engagement Rate</div>
+    <div class="ins-body">Do you have open rates and click rates from the WhatsApp or email blasts sent during the Price Drop sale? Knowing which message drove conversions vs which was ignored would help optimise the Diwali communication sequence. The 248 new customers acquired this week are <strong>the most important Diwali retargeting cohort</strong>.</div>
+  </div>
+  <div class="ins-card green">
+    <div class="ins-title">&#128179; Average Order Repeat Rate (Cohort)</div>
+    <div class="ins-body">What % of Ganesh Chaturthi week buyers (Sep 1&#8211;8) have made a second purchase by now? This <strong>repeat purchase rate within 30 days</strong> is the single most important LTV signal for Dabble's product category (child art). If &gt;15% repeat in 30 days, the economics of paid acquisition improve dramatically for Diwali planning.</div>
+  </div>
+</div>
+
+<!-- 11 ACTIONS & SCORECARD -->
+<div class="sec-label"><span>11 &nbsp;&#8212;&nbsp; Weekly Scorecard &amp; Action Items</span></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+  <div style="background:white;border-radius:14px;padding:18px 20px;border:1px solid var(--border);">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:8px;">Revenue vs Target</div>
+    <div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;background:var(--amber-lt);color:var(--amber);">&#128201; 71.3% of Oct MTD Plan</div>
+    <div style="font-size:13px;color:var(--slate2);line-height:1.55;">GMV &#8377;4.19L this week &#8212; massive WoW jump. Oct MTD &#8377;3.32L vs &#8377;4.66L target. Need &#8377;38,745/day for rest of October. Navratri (7&#8211;16 Oct) + Diwali ramp (17&#8211;31 Oct) are the only paths.</div>
+  </div>
+  <div style="background:white;border-radius:14px;padding:18px 20px;border:1px solid var(--border);">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:8px;">Meta Advertising</div>
+    <div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;background:var(--amber-lt);color:var(--amber);">&#9200; Act This Week</div>
+    <div style="font-size:13px;color:var(--slate2);line-height:1.55;">PAUSE DP_Testing (0.11x). Reduce Magic Dust. Scale Playdough (2.13x &#8212; best this week). Boost Navratri to &#8377;5K&#8211;7K/day. Monitor Festive Kit campaign launched 7 Oct. Target 1.8x+ blended ROAS for October.</div>
+  </div>
+  <div style="background:white;border-radius:14px;padding:18px 20px;border:1px solid var(--border);">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:8px;">Playdough Recovery</div>
+    <div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;background:var(--green-lt);color:var(--green);">&#9650; Full Recovery</div>
+    <div style="font-size:13px;color:var(--slate2);line-height:1.55;">120 units, &#8377;90,805 gross, 2.13x ROAS on Meta. Only 1 return (vs 3+ last week). Product health restored. Scale Playdough campaign budget &#8212; this is the breakout SKU for Diwali gifting potential.</div>
+  </div>
+  <div style="background:white;border-radius:14px;padding:18px 20px;border:1px solid var(--border);">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:8px;">Diwali Preparation</div>
+    <div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;background:var(--rose-lt);color:var(--rose);">&#9200; Urgent &#8212; 10 Days Left</div>
+    <div style="font-size:13px;color:var(--slate2);line-height:1.55;">Diwali = Oct 20. PriceDrop model proven (1.85x ROAS). Replicate for Diwali: gift sets + combos + Playdough as lead SKUs. Launch Diwali creative by Oct 13. Budget: &#8377;40K&#8211;50K/day for Oct 17&#8211;22.</div>
+  </div>
+  <div style="background:white;border-radius:14px;padding:18px 20px;border:1px solid var(--border);">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:8px;">Weekend Optimisation</div>
+    <div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;background:var(--amber-lt);color:var(--amber);">&#128204; Structurally Weak</div>
+    <div style="font-size:13px;color:var(--slate2);line-height:1.55;">Sat 3 Oct: 41 orders / Sun 4 Oct: 40 orders &#8212; 40% below weekday average even during the same sale event. Shift 20&#8211;25% of weekend Meta budget to Fri&#8211;Mon. Test weekend-specific creatives (family activity, weekend arts &amp; crafts theme).</div>
+  </div>
+  <div style="background:white;border-radius:14px;padding:18px 20px;border:1px solid var(--border);">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:8px;">Post-Purchase Retention</div>
+    <div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;background:var(--teal-lt);color:var(--teal);">&#9650; High Priority</div>
+    <div style="font-size:13px;color:var(--slate2);line-height:1.55;">248 new customers acquired this week. Activate 7-day post-purchase sequence: unboxing content, usage tips, Diwali gifting upsell by Day 14. Returning customers (24.8%) showing strong loyalty &#8212; reward with early Diwali access.</div>
+  </div>
+</div>
+
+<div class="dash-footer">
+  <div><strong>Dabble PlayArt</strong> &middot; CEO Weekly Dashboard &middot; Week 41, 2026</div>
+  <div>Data: Shopify &middot; Meta Ads Manager &middot; Shopflo &middot; Oct Revenue P&amp;L Plan-2</div>
+  <div>Period: <strong>30 Sep &ndash; 6 Oct 2026</strong> &middot; Prepared by Dabble Data Team</div>
+</div>
+
+</div>
+</body>
+</html>
